@@ -1,4 +1,4 @@
-require 'test_helper'
+require './test/test_helper'
 require './lib/battleship'
 
 class BattleshipTest < Minitest::Test
@@ -7,5 +7,4 @@ class BattleshipTest < Minitest::Test
     b = Battleship.new
     assert_instance_of Battleship, b
   end
-
 end
