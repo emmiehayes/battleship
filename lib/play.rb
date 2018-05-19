@@ -1,12 +1,16 @@
+require './lib/responder'
+
 class Play
+  extend Responder
+  include Responder
+
+  start_game_message
 
   def computer_place_your_ships
     # when the player decides to play the game (battleship class) it will create a new instance of play.
     # generate random placements based on rules- consider breaking rules logic out into its own method if need be
     # the computer will immediately place it's ships and print the following message to the screen:
   end
-
-  puts 'You now need to layout your two ships. The first is two units long and the second is three units long. The grid has A1 at the top left and D4 at the bottom right. Enter the squares for the two-unit ship:'
 
   def player_place_your_ships
     user_input = gets.chomp.strip

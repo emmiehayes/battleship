@@ -1,2 +1,2 @@
-Dir["./lib/*.rb"].each { |file| require file}  #always have this above the start command
+Dir["./lib/*.rb"].each { |file| require file}
 Battleship.new.start_game_sequence

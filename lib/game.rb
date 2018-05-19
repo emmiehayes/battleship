@@ -17,3 +17,4 @@ def render_game_grid
   # col =   [A, B, C, D]
   # header = ===========
 end
+end
