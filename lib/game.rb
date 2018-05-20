@@ -1,20 +1,23 @@
+require './lib/responder'
+
 class Game
-  # during the main game, players take turns firing at one another by selecting positions on the grid to attack.
+puts Responder.welcome_response
 
-def player_shot_sequence
-  # Once the ships are laid out the game starts with the Player Shot Sequence.
-  # Display the map from the current player’s point of view
-  # Prompt the player for a position on which to fire
-  # Indicate whether that shot was a hit or a miss and display an updated map
-end
+  def start_game_sequence
+    user_input = gets.chomp.downcase.strip
+    until user_input == 'q' || user_input == 'quit'
+      if user_input == 'p' || user_input == "play"
+        Computer.new.generate_ship_coordinates
+      elsif user_input == 'i' || user_input == "instructions"
+        puts Responder.instructional_response
+      end
+      user_input = gets.chomp.downcase.strip
+    end
+    puts Responder.end_game_response
+  end
 
-def render_game_grid
-  # During the player_shot_sequence the game will frequently need to display the current game view.
-  # We’ll use a simple ASCII text grid of letters (to indicate rows) and numbers (to indicate columns).
-  # Your board will look something like this
-  # header = ===========
-  # rows =   [. 1 2 3 4]
-  # col =   [A, B, C, D]
-  # header = ===========
-end
+  def end_game_sequence
+  # When either the player or computer destroy their opponents ships, output the Responder.sorry_response or Responder.congratulations_response depending on the player final status and ask if they want to play again or quit.
+  end
+
 end
