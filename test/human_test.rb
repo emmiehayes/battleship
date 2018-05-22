@@ -16,9 +16,4 @@ class HumanTest < Minitest::Test
     assert_instance_of Time, human.start_time
   end
 
-  def test_it_can_place_two_unit_ship
-    
-  end
-
-
 end

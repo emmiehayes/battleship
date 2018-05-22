@@ -19,24 +19,23 @@ class Human
     @start_time      = Time.new
   end
 
-  puts Responder.start_game_response
 
   def place_two_unit_ship
-    player_input = gets.chomp
-    split_coordinates = format_coordinates(player_input)
-    if two_unit_ship_valid?(spilt_coordinates)
-      @two_unit_ship + split_coordinates
-      puts Responder.ship_placed
+    puts Responder.start_game_response
+    human_input = gets.chomp
+    if two_unit_ship_valid?(human_input)
+      @two_unit_ship + format_coordinates(human_input)
+      place_three_unit_ship
     else
       puts Responder.invalid_entry
     end
   end
 
   def place_three_unit_ship
-    player_input = gets.chomp
-    split_coordinates = format_coordinates(player_input)
-    if three_unit_ship_valid?(split_coordinates)
-      @three_unit_ship + split_coordinates
+    puts Responder.ship_placed
+    human_input = gets.chomp
+    if three_unit_ship_valid?(human_input)
+      @three_unit_ship + format_coordinates(human_input)
       puts Responder.all_ships_down
     else
       puts Responder.invalid_entry
@@ -71,10 +70,8 @@ class Human
       puts Responder.missed
     end
   end
-end
 
-
-def calculate_game_time
-  (Time.now - @start_time).round
-end
+  def calculate_game_time
+    (Time.now - @start_time).round
+  end
 end

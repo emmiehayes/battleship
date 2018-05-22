@@ -4,7 +4,7 @@ module RuleChecker
   include ValidCoordinates
 
   def format_coordinates(user_input)
-    user_input.strip.upcase.split
+    user_input.upcase.split
   end
 
   def check_board(user_input)
@@ -35,5 +35,5 @@ module RuleChecker
   def three_unit_ship_valid?(user_input)
     #WIP
   end
-    
+
 end
