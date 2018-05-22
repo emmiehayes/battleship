@@ -19,15 +19,14 @@ class Human
     @start_time      = Time.new
   end
 
-
   def place_two_unit_ship
     puts Responder.start_game_response
     human_input = gets.chomp
-    until two_unit_ship_valid?(human_input)
-      puts Responder.invalid_entry
+    while two_unit_ship_valid?(human_input)
+      @two_unit_ship + format_coordinates(human_input)
+      place_three_unit_ship
     end
-    @two_unit_ship + format_coordinates(human_input)
-    place_three_unit_ship
+    puts Responder.invalid_entry
   end
 
   def place_three_unit_ship

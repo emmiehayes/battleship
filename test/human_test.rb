@@ -16,4 +16,57 @@ class HumanTest < Minitest::Test
     assert_instance_of Time, human.start_time
   end
 
+  def test_it_can_format_user_input
+    human = Human.new
+    assert_equal ['C2', 'C3'], human.format_coordinates('c2 c3')
+  end
+
+  def test_it_can_compare_user_input_to_valid_coordinates
+    human = Human.new
+    assert_equal ['C2', 'C3'], human.check_board('c2 c3')
+    assert_equal ['B4'], human.check_board('b4 b5')
+  end
+
+  def test_valid_coordinates
+    human = Human.new
+    assert human.coordinates_on_board?('c2 c3')
+    refute human.coordinates_on_board?('b4 b5')
+  end
+
+  def test_alphabetized_coordinates
+    human = Human.new
+    assert human.alphabetized?('c2 c3')
+    refute human.alphabetized?('a1 d4')
+  end
+
+  def test_it_can_subtract_one_coordinate_from_the_other
+    human = Human.new
+    assert_equal 1, human.subtract_values('c3 c2')
+    assert_equal 0, human.subtract_values('b1 a1')
+    assert_equal 1, human.subtract_values('d2 d1')
+    assert_equal 3, human.subtract_values('d4 d1')
+    assert_equal (-3), human.subtract_values('d1 d4')
+    assert_equal 0, human.subtract_values('c1 d1')
+  end
+
+  def test_it_can_check_for_valid_board_placement
+    human = Human.new
+    assert human.placement_valid?('c3 c2')
+    assert human.placement_valid?('b1 a1')
+    assert human.placement_valid?('d2 d1')
+    refute human.placement_valid?('d4 d1')
+    refute human.placement_valid?('d1 d4')
+    assert human.placement_valid?('c1 d1')
+  end
+
+  def test_it_can_validate_two_unit_ship
+    human = Human.new
+    assert human.two_unit_ship_valid?('c3 c2')
+    assert human.two_unit_ship_valid?('d2 d1')
+    assert human.two_unit_ship_valid?('c1 d1')
+    refute human.two_unit_ship_valid?('d4 d1')
+    refute human.two_unit_ship_valid?('d1 d4')
+    refute human.two_unit_ship_valid?('e1 e2')
+    refute human.two_unit_ship_valid?('b1 a1')
+  end
 end
