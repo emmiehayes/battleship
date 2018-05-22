@@ -27,17 +27,19 @@ class Human
       place_three_unit_ship
     end
     puts Responder.invalid_entry
+    human_input = gets.chomp
+    place_two_unit_ship
   end
 
   def place_three_unit_ship
     puts Responder.ship_placed
     human_input = gets.chomp
-    if three_unit_ship_valid?(human_input)
+    while three_unit_ship_valid?(human_input)
       @three_unit_ship + format_coordinates(human_input)
-      puts Responder.all_ships_down
-    else
-      puts Responder.invalid_entry
     end
+    puts Responder.invalid_entry
+    human_input = gets.chomp
+    place_three_unit_ship
   end
 
   def aim

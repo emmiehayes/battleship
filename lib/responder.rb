@@ -33,7 +33,7 @@ module Responder
 
   def self.invalid_entry
     clear_screen
-    "Invalid coordinates were entered.  \nMake sure your coordinates fall between A1 and D4. \nMake sure no commas are entered with your coordinates."
+    "Invalid coordinates were entered.  \nMake sure your coordinates fall between A1 and D4. \nMake sure no commas are entered with your coordinates.\n\nEnter the two coordinates where you would like to place your first ship:"
   end
 
   def self.sorry_response
