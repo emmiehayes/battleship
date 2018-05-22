@@ -6,16 +6,12 @@ class Player
   attr_reader :two_unit_ship,
               :three_unit_ship,
               :shots_fired,
-              :hits,
-              :misses,
               :start_time
 
   def initialize
     @two_unit_ship   = []
     @three_unit_ship = []
     @shots_fired     = []
-    @hits            = []
-    @misses          = []
     @start_time      = Time.new
   end
 
