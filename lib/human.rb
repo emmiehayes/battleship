@@ -23,12 +23,11 @@ class Human
   def place_two_unit_ship
     puts Responder.start_game_response
     human_input = gets.chomp
-    if two_unit_ship_valid?(human_input)
-      @two_unit_ship + format_coordinates(human_input)
-      place_three_unit_ship
-    else
+    until two_unit_ship_valid?(human_input)
       puts Responder.invalid_entry
     end
+    @two_unit_ship + format_coordinates(human_input)
+    place_three_unit_ship
   end
 
   def place_three_unit_ship
