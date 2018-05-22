@@ -11,6 +11,16 @@ module Responder
     \n\nEnter the two coordinates where you would like to place your first ship:"
   end
 
+  def self.ship_placed
+    clear_screen
+    "Your two_unit ship has been placed.  Enter the three coordinates where you would like to place your ship:"
+  end
+
+  def self.all_ships_down
+    clear_screen
+    "Your Battleships have been placed."
+  end
+
   def self.instructional_response
     clear_screen
     "The objective of this game is to try and sink the computer\'s two ships before it sinks yours.  Neither you nor the computer can see the other\'s board so you must try to guess where the ships are located .\nWould you like to (p)lay or (q)uit?"
@@ -21,12 +31,12 @@ module Responder
     'Thank you for playing.'
   end
 
-  def self.invalid_entry_response
+  def self.invalid_entry
     clear_screen
     "Invalid coordinates were entered.  \nMake sure your coordinates fall between A1 and D4. \nMake sure no commas are entered with your coordinates."
   end
 
-  def self.sorry_message
+  def self.sorry_response
     clear_screen
     "It appears your opponent destroyed both of your battleships in  #{calculate_game_time / 60} minute(s), #{calculate_game_time % 60} second(s).  #{@computer_shots_taken.length} total shots were fired to take down your battleships.  Would you like to (p)lay again or (q)uit?"
   end
@@ -47,6 +57,22 @@ module Responder
     \n  D ['D1'] ['D2'] ['D3'] ['D4']
     \n  =============================
     """
+  end
+
+  def self.battleship_two_destroyed
+    "**Two Unit Ship Destroyed!**"
+  end
+
+  def self.battleship_three_destroyed
+    "**Three Unit Ship Destroyed!**"
+  end
+
+  def self.hit
+    "Hit!"
+  end
+
+  def self.missed
+    "Missed!"
   end
 
   def self.clear_screen

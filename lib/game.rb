@@ -7,7 +7,8 @@ puts Responder.welcome_response
     user_input = gets.chomp.downcase.strip
     until user_input == 'q' || user_input == 'quit'
       if user_input == 'p' || user_input == "play"
-        Computer.new.generate_ship_coordinates
+        Human.new.place_two_unit_ship
+        # Computer.new.generate_ship_coordinates***
       elsif user_input == 'i' || user_input == "instructions"
         puts Responder.instructional_response
       end
@@ -21,3 +22,5 @@ puts Responder.welcome_response
   end
 
 end
+
+#*** if i get to the point where my computer ships are not hardcoded i will instantiate the Computer class like the spec request.  while i have the computer ships hard coded i will instantiate the Human class.

@@ -1,24 +1,23 @@
-require './lib/player'
+require './lib/valid_coordinates'
+require './lib/responder'
 require './lib/human'
-require 'pry'
 
-class Computer #will inherit from player once game works
+class Computer
   include ValidCoordinates
 
   attr_accessor :two_unit_ship,
                 :three_unit_ship
-  attr_reader :shots_fired,
-              :start_time
+
+  attr_reader   :shots_fired
 
   def initialize
-    @two_unit_ship   = ['C1', 'D1']
-    @three_unit_ship = ['A1', 'A2', 'A3']
-    @shots_fired     = []
-    @start_time      = Time.new
+    @two_unit_ship    = ['C1', 'D1']
+    @three_unit_ship  = ['A1', 'A2', 'A3']
+    @shots_fired      = []
   end
 
   def aim
-    "B1"  #valid_coordinates.shuffle.pop
+    valid_coordinates.shuffle.pop
   end
 
   def duplicate_shot?(aim)
@@ -29,25 +28,28 @@ class Computer #will inherit from player once game works
     @shots_fired << aim
     if human.two_unit_ship.include?(aim)
       human.two_unit_ship.delete(aim)
-      puts "Hit"
+      if human.two_unit_ship.empty?
+        puts Responder.battleship_two_destroyed
+      else
+        puts Responder.hit
+      end
     elsif human.three_unit_ship.include?(aim)
       human.three_unit_ship.delete(aim)
-      puts "Hit"
+      if human.three_unit_ship.empty?
+        puts Responder.battleship_three_destroyed
+      else
+        puts Responder.hit
+      end
     else
-      puts "Miss"
+      puts Responder.missed
     end
-  end
-
-
-  def calculate_game_time
-    (Time.now - @start_time).round
   end
 end
 
 
 
 # HARD CODING SHIP COORDINATES TO GET THE GAME WORKING-
-# WILL REVIST SHIP COORDINATE GENERATOR ONCE GAME IS WORKING 85% COMPLETE
+# WILL REVIST SHIP COORDINATE GENERATOR ONCE GAME IS WORKING.
 
   # def place_two_unit_ship
   #   @two_unit_ship << two_unit_first

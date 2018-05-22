@@ -1,6 +1,5 @@
 require './test/test_helper'
 require './lib/computer'
-require './lib/human'
 
 class ComputerTest < Minitest::Test
 
@@ -14,7 +13,6 @@ class ComputerTest < Minitest::Test
     assert_equal ['C1', 'D1'], computer.two_unit_ship
     assert_equal ['A1', 'A2', 'A3'], computer.three_unit_ship
     assert_equal [], computer.shots_fired
-    assert_instance_of Time, computer.start_time
   end
 
   def test_it_has_valid_coordinates
@@ -31,36 +29,35 @@ class ComputerTest < Minitest::Test
     assert_equal 2, computer.aim.length
     assert valid_letters.include?(computer.aim[0])
     assert valid_numbers.include?(computer.aim[1])
-    assert_equal 'B1', computer.aim
   end
 
   def test_it_can_check_if_coordinate_has_been_fired
     computer = Computer.new
-    refute computer.duplicate_shot?(computer.aim)
+    human = Human.new
+    refute computer.duplicate_shot?('B1')
+    computer.fire('B1', human)
+    assert computer.duplicate_shot?('B1')
   end
 
   def test_when_it_fires_a_shot_it_is_stored_in_shots_fired
     computer = Computer.new
     human = Human.new
-    computer.fire(computer.aim, human)
+    computer.fire('B1', human)
     assert_equal 1, computer.shots_fired.length
   end
 
+  def test_when_computer_hits_human_ship_coordinate_is_removed
+    computer = Computer.new
+    human = Human.new
+    computer.fire('B1', human)
+    assert_equal 1, human.two_unit_ship.length
+  end
 
-
+  def test_when_computer_can_sink_human_battleship
+    computer = Computer.new
+    human = Human.new
+    computer.fire("B1", human)
+    computer.fire("B2", human)
+    assert_equal 0, human.two_unit_ship.length
+  end
 end
-
-
-
-
-
-#ADD BACK IN WHEN CODE IS ADDED BACK IN
-# def test_it_can_generate_two_unit_first_coordinate
-#   computer = Computer.new
-#   valid_letters = ['A', 'B', 'C', 'D']
-#   valid_numbers = ['1', '2', '3', '4']
-#   assert_instance_of String, computer.two_unit_first
-#   assert_equal 2, computer.two_unit_first.length
-#   assert valid_letters.include?(computer.two_unit_first[0])
-#   assert valid_numbers.include?(computer.two_unit_first[1])
-# end

@@ -1,6 +1,6 @@
 require './lib/valid_coordinates'
 
-class RuleChecker
+module RuleChecker
   include ValidCoordinates
 
   def format_coordinates(user_input)
@@ -31,4 +31,9 @@ class RuleChecker
   def two_unit_ship_valid?(user_input)
     true if coordinates_on_board?(user_input) && placement_valid?(user_input)
   end
+
+  def three_unit_ship_valid?(user_input)
+    #WIP
+  end
+    
 end
