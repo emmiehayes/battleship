@@ -13,8 +13,8 @@ class Human
               :start_time
 
   def initialize
-    @two_unit_ship   = ['B1', 'B2']
-    @three_unit_ship = ['C2', 'C3', 'C4']
+    @two_unit_ship   = []
+    @three_unit_ship = []
     @shots_fired     = []
     @start_time      = Time.new
   end
@@ -26,24 +26,31 @@ class Human
       @two_unit_ship + format_coordinates(human_input)
       place_three_unit_ship
     end
-    puts Responder.invalid_entry
+    puts Responder.two_unit_invalid_entry
     human_input = gets.chomp
     place_two_unit_ship
   end
 
   def place_three_unit_ship
-    puts Responder.ship_placed
+    puts Responder.request_three_unit_ship
     human_input = gets.chomp
     while three_unit_ship_valid?(human_input)
       @three_unit_ship + format_coordinates(human_input)
+      aim
     end
-    puts Responder.invalid_entry
+    puts Responder.three_unit_invalid_entry
     human_input = gets.chomp
     place_three_unit_ship
   end
 
   def aim
+    puts Responder.aim_battleship
     player_aim = gets.chomp.upcase.strip
+    if duplicate_shot?(player_aim)
+      puts Responder.duplicate_shot
+    else
+      fire(aim, computer)
+    end
   end
 
   def duplicate_shot?(aim)

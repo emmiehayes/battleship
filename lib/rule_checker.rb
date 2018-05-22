@@ -19,7 +19,7 @@ module RuleChecker
     check_board(user_input).length
   end
 
-  def subtract_number_values(user_input)
+  def subtract_values(user_input)
     number_values = []
     format_coordinates(user_input).each do |coordinate|
       number_values << coordinate[1].to_i
@@ -27,40 +27,37 @@ module RuleChecker
     number_values.inject(:-)
   end
 
-  def alphabetized?(user_input)
-    letter_values = []
-    format_coordinates(user_input).each do |coordinate|
-      letter_values << coordinate[0]
-    end
-    true if letter_values == letter_values.sort
+  def two_unit_wrap_free?(user_input)
+    true if subtract_values(user_input) == (-1) ||
+    subtract_values(user_input) == (0)
   end
 
-  def diagonal?
-    #WIP
+  def three_unit_wrap_free?(user_input)
+    true if subtract_values(user_input) <= -1
+  end
+
+  def two_ship_diagonal_coordinates?(user_input)
+    sorted = format_coordinates(user_input).sort
+    true if sorted[0][0].next != sorted[1][0] && sorted[0][1] == sorted[1][1] ||
+    sorted[0][0] != sorted[1][0] && sorted[0][1].to_i + 1 == sorted[1][1].to_i
   end
 
   def coordinates_claimed?(user_input)
-    true if two_unit_ship.inlcude?(user_input)
-  end
-
-  def two_ship_placement_valid?(user_input)
-    true if subtract_number_values(user_input) == (-1) ||
-    subtract_number_values(user_input) == 0
-  end
-
-  def three_ship_placement_valid?(user_input)
-    true if subtract_number_values(user_input) == (-4) ||
-    subtract_number_values(user_input) == (-5) || subtract_number_values(user_input) == -1
+    formatted = format_coordinates(user_input)
+    true if two_unit_ship.include?(formatted[0]) ||
+            two_unit_ship.include?(formatted[1]) ||
+            two_unit_ship.include?(formatted[2])
   end
 
   def two_unit_ship_valid?(user_input)
-    true if coordinates_on_board?(user_input) && two_ship_placement_valid?(user_input) &&
-    alphabetized?(user_input)
+    true if all_coordinates_on_board?(user_input) &&
+            two_unit_wrap_free?(user_input) &&
+            !two_ship_diagonal_coordinates?(user_input)
   end
 
   def three_unit_ship_valid?(user_input)
-    true if coordinates_on_board?(user_input) &&
-    coordinates_claimed? == false && three_ship_placement_valid?(user_input) && alphabetized?(user_input)
+    true if all_coordinates_on_board?(user_input) &&
+    three_unit_wrap_free?(user_input) &&
+    !coordinates_claimed?(user_input)
   end
-
 end

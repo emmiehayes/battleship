@@ -11,9 +11,9 @@ module Responder
     \n\nEnter the two coordinates where you would like to place your first ship:"
   end
 
-  def self.ship_placed
+  def self.request_three_unit_ship
     clear_screen
-    "Your two_unit ship has been placed.  Enter the three coordinates where you would like to place your ship:"
+    "Enter the three coordinates where you would like to place your ship:"
   end
 
   def self.all_ships_down
@@ -31,9 +31,19 @@ module Responder
     'Thank you for playing.'
   end
 
-  def self.invalid_entry
+  def self.two_unit_invalid_entry
     clear_screen
     "Invalid coordinates were entered.  \nMake sure your coordinates fall between A1 and D4. \nMake sure no commas are entered with your coordinates.\n\nEnter the two coordinates where you would like to place your first ship:"
+  end
+
+  def self.three_unit_invalid_entry
+    clear_screen
+    "Invalid coordinates were entered.  \nMake sure your coordinates fall between A1 and D4. \nMake sure no commas are entered with your coordinates and your three unit ship is not overlapping with your two unit ship.  \n\nEnter the three coordinates where you would like to place your second ship:"
+  end
+
+  def self.aim_battleship
+    clear_screen
+    "It's on! Enter a coordinate to release fire on your enemy:"
   end
 
   def self.sorry_response
@@ -77,6 +87,11 @@ module Responder
 
   def self.clear_screen
     puts "\e[H\e[2J"
+  end
+
+  def self.duplicate_shot
+    clear_screen
+    "You already took that shot.  Enter a coordinate to release fire on your enemy:"
   end
 
 end
