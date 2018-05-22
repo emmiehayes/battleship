@@ -14,7 +14,7 @@ module RuleChecker
     end
   end
 
-  def coordinates_on_board?(user_input)
+  def all_coordinates_on_board?(user_input)
     true if format_coordinates(user_input).length ==
     check_board(user_input).length
   end
@@ -35,6 +35,10 @@ module RuleChecker
     true if letter_values == letter_values.sort
   end
 
+  def diagonal?
+    #WIP
+  end
+
   def coordinates_claimed?(user_input)
     true if two_unit_ship.inlcude?(user_input)
   end
@@ -46,7 +50,7 @@ module RuleChecker
 
   def three_ship_placement_valid?(user_input)
     true if subtract_number_values(user_input) == (-4) ||
-    subtract_number_values(user_input) == (-5) || subtract_number_values(user_input) == 0
+    subtract_number_values(user_input) == (-5) || subtract_number_values(user_input) == -1
   end
 
   def two_unit_ship_valid?(user_input)
