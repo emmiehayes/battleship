@@ -23,26 +23,36 @@ class Human
 
   def place_two_unit_ship
     puts Responder.start_game_response
-    human_input = gets.chomp
-    while two_unit_ship_valid?(human_input)
-      @two_unit_ship + format_coordinates(human_input)
+    ui = gets.chomp
+    if two_unit_ship_valid?(ui)
+      store_coordinates(ui)
       place_three_unit_ship
+    else
+      puts Responder.two_unit_invalid_entry
+      get_input
+      place_two_unit_ship
     end
-    puts Responder.two_unit_invalid_entry
-    human_input = gets.chomp
-    place_two_unit_ship
   end
 
   def place_three_unit_ship
     puts Responder.request_three_unit_ship
-    human_input = gets.chomp
-    while three_unit_ship_valid?(human_input)
-      @three_unit_ship + format_coordinates(human_input)
+    ui = gets.chomp
+    if three_unit_ship_valid?(ui)
+      store_coordinates(ui)
       aim
+    else
+      puts Responder.three_unit_invalid_entry
+      ui = gets.chomp
+      place_three_unit_ship
     end
-    puts Responder.three_unit_invalid_entry
-    human_input = gets.chomp
-    place_three_unit_ship
+  end
+
+  def store_coordinates(ui)
+    if format_coords(ui).length == 2
+      @two_unit_ship + format_coords(ui)
+    elsif format_coords(ui).length == 3
+      @three_unit_ship + format_coords(ui)
+    end
   end
 
   def aim
