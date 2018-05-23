@@ -8,7 +8,7 @@ module RuleChecker
     user_input.upcase.split
   end
 
-  def check_board(user_input)
+  def check_coordinates_exist(user_input)
     format_coordinates(user_input).select do |coordinate|
       valid_coordinates.include?(coordinate)
     end
@@ -16,7 +16,7 @@ module RuleChecker
 
   def all_coordinates_on_board?(user_input)
     true if format_coordinates(user_input).length ==
-    check_board(user_input).length
+    check_coordinates_exist(user_input).length
   end
 
   def subtract_values(user_input)
@@ -27,12 +27,20 @@ module RuleChecker
     number_values.inject(:-)
   end
 
-  def two_unit_wrap_free?(user_input)
-    true if subtract_values(user_input) == (-1) ||
-    subtract_values(user_input) == (0)
+  def alphabet_check(user_input)
+    letter_values = []
+    format_coordinates(user_input).each do |coordinate|
+      letter_values << coordinate[0]
+    end
+    letter_values
   end
 
-  def three_unit_wrap_free?(user_input)
+  def two_unit_no_wrapping?(user_input)
+    true if (subtract_values(user_input) == (-1) ||
+    subtract_values(user_input) == (0)) && (alphabet_check(user_input) == alphabet_check(user_input).sort)
+  end
+
+  def three_unit_no_wrapping?(user_input)
     true if subtract_values(user_input) <= -1
   end
 
@@ -51,13 +59,13 @@ module RuleChecker
 
   def two_unit_ship_valid?(user_input)
     true if all_coordinates_on_board?(user_input) &&
-            two_unit_wrap_free?(user_input) &&
+            two_unit_no_wrapping?(user_input) &&
             !two_ship_diagonal_coordinates?(user_input)
   end
 
   def three_unit_ship_valid?(user_input)
     true if all_coordinates_on_board?(user_input) &&
-    three_unit_wrap_free?(user_input) &&
+    three_unit_no_wrapping?(user_input) &&
     !coordinates_claimed?(user_input)
   end
 end

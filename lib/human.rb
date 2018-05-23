@@ -10,13 +10,15 @@ class Human
                 :three_unit_ship
 
   attr_reader :shots_fired,
-              :start_time
+              :start_time,
+              :opponent
 
   def initialize
     @two_unit_ship   = []
     @three_unit_ship = []
     @shots_fired     = []
     @start_time      = Time.new
+    @opponent        = Computer.new
   end
 
   def place_two_unit_ship
@@ -49,33 +51,26 @@ class Human
     if duplicate_shot?(player_aim)
       puts Responder.duplicate_shot
     else
-      fire(aim, computer)
+      fire(player_aim)
+    end
+  end
+
+  def fire(player_aim)
+    @shots_fired << player_aim
+    status?(player_aim)
+  end
+
+  def status?(player_aim)
+    if @opponent.two_unit_ship.include?(player_aim)
+      puts Responder.hit
+      @opponent.two_unit_ship.delete(player_aim)
+    else
+      puts Responder.missed
     end
   end
 
   def duplicate_shot?(aim)
     true if @shots_fired.include?(aim)
-  end
-
-  def fire(aim, computer)
-    @shots_fired << aim
-    if computer.two_unit_ship.include?(aim)
-      computer.two_unit_ship.delete(aim)
-      if computer.two_unit_ship.empty?
-        puts Responder.battleship_two_destroyed
-      else
-        puts Responder.hit
-      end
-    elsif computer.three_unit_ship.include?(aim)
-      computer.three_unit_ship.delete(aim)
-      if computer.three_unit_ship.empty?
-        puts Responder.battleship_three_destroyed
-      else
-        puts Responder.hit
-      end
-    else
-      puts Responder.missed
-    end
   end
 
   def calculate_game_time

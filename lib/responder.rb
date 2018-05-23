@@ -43,7 +43,13 @@ module Responder
 
   def self.aim_battleship
     clear_screen
-    "It's on! Enter a coordinate to release fire on your enemy:"
+      "  ==============================
+      \n  .   1      2      3      4
+      \n  A ['A1'] ['A2'] ['A3'] ['A4']
+      \n  B ['B1'] ['B2'] ['B3'] ['B4']
+      \n  C ['C1'] ['C2'] ['C3'] ['C4']
+      \n  D ['D1'] ['D2'] ['D3'] ['D4']
+      \n  ============================= \nLet the game begin! Enter a coordinate to release fire on your enemy:"
   end
 
   def self.sorry_response
