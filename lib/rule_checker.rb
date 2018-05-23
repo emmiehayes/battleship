@@ -1,71 +1,70 @@
 require './lib/valid_coordinates'
-require 'pry'
+require './lib/diagonal_coordinates'
 
 module RuleChecker
   include ValidCoordinates
+  include DiagonalCoordinates
 
-  def format_coordinates(user_input)
-    user_input.upcase.split
+  def format_coords(ui)
+    ui.upcase.split
   end
 
-  def check_coordinates_exist(user_input)
-    format_coordinates(user_input).select do |coordinate|
-      valid_coordinates.include?(coordinate)
+  def check_coords_exist(ui)
+    format_coords(ui).select do |coord|
+      valid_coordinates.include?(coord)
     end
   end
 
-  def all_coordinates_on_board?(user_input)
-    true if format_coordinates(user_input).length ==
-    check_coordinates_exist(user_input).length
+  def all_coords_on_board?(ui)
+    true if format_coords(ui).length == check_coords_exist(ui).length
   end
 
-  def subtract_values(user_input)
-    number_values = []
-    format_coordinates(user_input).each do |coordinate|
-      number_values << coordinate[1].to_i
+  def subtract(ui)
+    format_coords(ui).map do |coord|
+      coord[1].to_i
+    end.inject(:-)
+  end
+
+  def extract_letters(ui)
+    format_coords(ui).map do |coord|
+      coord[0]
     end
-    number_values.inject(:-)
   end
 
-  def alphabet_check(user_input)
-    letter_values = []
-    format_coordinates(user_input).each do |coordinate|
-      letter_values << coordinate[0]
+  def letters_sorted?(ui)
+    true if extract_letters(ui) == extract_letters(ui).sort
+  end
+
+  def two_unit_no_wraps?(ui)
+    valid_differences = [-1, 0]
+    true if valid_differences.include?(subtract(ui)) && letters_sorted?(ui)
+  end
+
+  def three_unit_no_wraps?(ui)
+    valid_differences = [-5, -4, -3, -2, -1, 0]
+    true if valid_differences.include?(subtract(ui)) && letters_sorted?(ui)
+  end
+
+  def diagonal_coords?(ui)
+    true if diagonal_coordinates.include?(format_coords(ui))
+  end
+
+  def mapped_coords(ui)
+    format_coords(ui).map do |coord|
+      two_unit_ship.include?(coord)
     end
-    letter_values
   end
 
-  def two_unit_no_wrapping?(user_input)
-    true if (subtract_values(user_input) == (-1) ||
-    subtract_values(user_input) == (0)) && (alphabet_check(user_input) == alphabet_check(user_input).sort)
+  def coords_claimed?(ui)
+    true if mapped_coords(ui).include?(true)
   end
 
-  def three_unit_no_wrapping?(user_input)
-    true if subtract_values(user_input) <= -1
+  def two_unit_ship_valid?(ui)
+    true if all_coords_on_board?(ui) && two_unit_no_wraps?(ui) && !diagonal_coords?(ui)
   end
 
-  def two_ship_diagonal_coordinates?(user_input)
-    sorted = format_coordinates(user_input).sort
-    true if sorted[0][0].next != sorted[1][0] && sorted[0][1] == sorted[1][1] ||
-    sorted[0][0] != sorted[1][0] && sorted[0][1].to_i + 1 == sorted[1][1].to_i
-  end
-
-  def coordinates_claimed?(user_input)
-    formatted = format_coordinates(user_input)
-    true if two_unit_ship.include?(formatted[0]) ||
-            two_unit_ship.include?(formatted[1]) ||
-            two_unit_ship.include?(formatted[2])
-  end
-
-  def two_unit_ship_valid?(user_input)
-    true if all_coordinates_on_board?(user_input) &&
-            two_unit_no_wrapping?(user_input) &&
-            !two_ship_diagonal_coordinates?(user_input)
-  end
-
-  def three_unit_ship_valid?(user_input)
-    true if all_coordinates_on_board?(user_input) &&
-    three_unit_no_wrapping?(user_input) &&
-    !coordinates_claimed?(user_input)
+  def three_unit_ship_valid?(ui)
+    true if all_coords_on_board?(ui) && three_unit_no_wraps?(ui) &&
+    !diagonal_coords?(ui) && !coords_claimed?(ui)
   end
 end
