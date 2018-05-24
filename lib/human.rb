@@ -1,9 +1,7 @@
-require './lib/valid_coordinates'
 require './lib/rule_checker'
 require './lib/computer'
 
 class Human
-  include ValidCoordinates
   include RuleChecker
 
   attr_accessor :two_unit_ship,
@@ -20,18 +18,14 @@ class Human
     @start_time      = Time.new
   end
 
-  def request_two_unit_ship
+  def place_two_unit_ship
     puts Responder.start_game_response
     ui = gets.chomp
-    place_two_unit_ship(ui)
-  end
-
-  def place_two_unit_ship(ui)
     until two_unit_ship_valid?(ui)
       puts Responder.two_unit_invalid_entry
       ui = gets.chomp
     end
-    @two_unit_ship << ui
+    @two_unit_ship + format_coords(ui)
     place_three_unit_ship
   end
 
@@ -53,33 +47,26 @@ class Human
       puts Responder.invalid_or_duplicate_shot
       ui = gets.chomp
     end
-    status(ui, computer = Computer.new)
+    fire(ui, Computer.new)
   end
 
-  def status(ui, computer)
+  def fire(ui, computer)
     @shots_fired << ui
     if computer.two_unit_ship.include?(ui)
       computer.two_unit_ship.delete(ui)
-      if computer.two_unit_ship.empty?
-        puts Responder.human_destroys_computer_two
-      else
-        puts Responder.human_hit
-      end
+      puts Responder.human_hit
+    elsif computer.two_unit_ship.empty?
+      puts Responder.human_destroys_computer_two
     elsif computer.three_unit_ship.include?(ui)
       computer.three_unit_ship.delete(ui)
-      if computer.three_unit_ship.empty?
-        puts Responder.human_destroys_computer_three
-      else
-        puts Responder.human_hit
-      end
+      puts Responder.human_hit
+    elsif computer.three_unit_ship.empty?
+      puts Responder.human_destroys_computer_three
     else
       puts Responder.human_missed
     end
-    computer.fire(aim)
+    computer.fire(computer.generate_shot, self)
   end
-
-
-
 
   def valid_shot?(ui)
     all_coords_on_board?(ui) && !duplicate_shot?(ui)

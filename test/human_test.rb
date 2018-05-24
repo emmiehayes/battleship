@@ -1,5 +1,6 @@
 require './test/test_helper'
 require './lib/human'
+require './lib/responder'
 
 class HumanTest < Minitest::Test
 
@@ -38,12 +39,12 @@ class HumanTest < Minitest::Test
   def test_coordinates_can_be_subtracted
     #helper method
     human = Human.new
-    assert_equal -1, human.subtract('a1 a2')
-    assert_equal -1, human.subtract('d3 d4')
+    assert_equal (-1), human.subtract('a1 a2')
+    assert_equal (-1), human.subtract('d3 d4')
     assert_equal 0, human.subtract('C1 d1')
     assert_equal 0, human.subtract('b3 c3')
-    assert_equal -4, human.subtract('d1 d2 d3')
-    assert_equal -4, human.subtract('a4 b4 c4')
+    assert_equal (-4), human.subtract('d1 d2 d3')
+    assert_equal (-4), human.subtract('a4 b4 c4')
   end
 
   def test_coordinate_letters
@@ -118,22 +119,22 @@ class HumanTest < Minitest::Test
     human = Human.new
     computer = Computer.new
     refute human.duplicate_shot?('B1')
-    human.status('B1', human)
+    human.fire('B1', computer)
     assert human.duplicate_shot?('B1')
   end
 
   def test_when_it_fires_a_shot_it_is_stored_in_shots_fired
     human = Human.new
     computer = Computer.new
-    human.status('B1', computer)
+    human.fire('B1', computer)
     assert_equal 1, human.shots_fired.length
   end
 
   def test_when_computer_can_sink_human_battleship
     human = Human.new
     computer = Computer.new
-    human.status("C1", computer)
-    human.status("D1", computer)
+    human.fire("C1", computer)
+    human.fire("D1", computer)
     assert_equal 0, computer.two_unit_ship.length
   end
 end

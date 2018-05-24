@@ -1,5 +1,6 @@
 require './test/test_helper'
 require './lib/computer'
+require './lib/responder'
 
 class ComputerTest < Minitest::Test
 
@@ -25,10 +26,10 @@ class ComputerTest < Minitest::Test
     computer = Computer.new
     valid_letters = ['A', 'B', 'C', 'D']
     valid_numbers = ['1', '2', '3', '4']
-    assert_instance_of String, computer.aim
-    assert_equal 2, computer.aim.length
-    assert valid_letters.include?(computer.aim[0])
-    assert valid_numbers.include?(computer.aim[1])
+    assert_instance_of String, computer.generate_shot
+    assert_equal 2, computer.generate_shot.length
+    assert valid_letters.include?(computer.generate_shot[0])
+    assert valid_numbers.include?(computer.generate_shot[1])
   end
 
   def test_it_can_check_if_coordinate_has_been_fired
@@ -46,14 +47,6 @@ class ComputerTest < Minitest::Test
     assert_equal 1, computer.shots_fired.length
   end
 
-#this test passes when i hard code in a ships for the human class
-  # def test_when_computer_hits_human_ship_coordinate_is_removed
-  #   computer = Computer.new
-  #   human = Human.new
-  #   computer.fire('B1', human)
-  #   assert_equal 1, human.two_unit_ship.length
-  # end
-
   def test_when_computer_can_sink_human_battleship
     computer = Computer.new
     human = Human.new
@@ -62,3 +55,11 @@ class ComputerTest < Minitest::Test
     assert_equal 0, human.two_unit_ship.length
   end
 end
+
+  #this test passes when i hard code in a ships for the human class
+  # def test_when_computer_hits_human_ship_coordinate_is_removed
+  #   computer = Computer.new
+  #   human = Human.new
+  #   computer.fire('B1', human)
+  #   assert_equal 1, human.two_unit_ship.length
+  # end

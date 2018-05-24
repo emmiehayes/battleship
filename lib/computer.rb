@@ -1,5 +1,4 @@
 require './lib/valid_coordinates'
-require './lib/responder'
 require './lib/human'
 
 class Computer
@@ -16,30 +15,26 @@ class Computer
     @shots_fired      = []
   end
 
-  def aim
+  def generate_shot
     valid_coordinates.shuffle.pop
   end
 
-  def duplicate_shot?(aim)
-    true if @shots_fired.include?(aim)
+  def duplicate_shot?(generate_shot)
+    true if @shots_fired.include?(generate_shot)
   end
 
-  def fire(aim, human)
-    @shots_fired << aim
-    if human.two_unit_ship.include?(aim)
-      human.two_unit_ship.delete(aim)
-      if human.two_unit_ship.empty?
-        puts Responder.computer_destroys_human_two
-      else
-        puts Responder.computer_hit
-      end
-    elsif human.three_unit_ship.include?(aim)
-      human.three_unit_ship.delete(aim)
-      if human.three_unit_ship.empty?
-        puts Responder.computer_destroys_human_three
-      else
-        puts Responder.computer_hit
-      end
+  def fire(generate_shot, human = Human.new)
+    @shots_fired << generate_shot
+    if human.two_unit_ship.include?(generate_shot)
+      human.two_unit_ship.delete(generate_shot)
+      puts Responder.computer_hit
+    elsif human.two_unit_ship.empty?
+      puts Responder.computer_destroys_human_two
+    elsif human.three_unit_ship.include?(generate_shot)
+      human.three_unit_ship.delete(generate_shot)
+      puts Responder.computer_hit
+    elsif human.three_unit_ship.empty?
+      puts Responder.computer_destroys_human_three
     else
       puts Responder.computer_missed
     end

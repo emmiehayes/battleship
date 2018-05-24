@@ -1,6 +1,5 @@
 require './test/test_helper'
 require './lib/game'
-require './lib/responder'
 
 class GameTest < Minitest::Test
 
