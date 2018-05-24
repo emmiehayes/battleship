@@ -15,7 +15,7 @@ class GameTest < Minitest::Test
   end
 
   def test_start_game_response_in_responder_module
-    result = "Enter the two coordinates"
+    result = "I have laid out my ships on the grid."
     assert Responder.start_game_response.include?(result)
   end
 

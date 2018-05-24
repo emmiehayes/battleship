@@ -60,11 +60,11 @@ module RuleChecker
   end
 
   def two_unit_ship_valid?(ui)
-    true if all_coords_on_board?(ui) && two_unit_no_wraps?(ui) && !diagonal_coords?(ui)
+    true if all_coords_on_board?(ui) && two_unit_no_wraps?(ui) && !diagonal_coords?(ui) && letters_sorted?(ui)
   end
 
   def three_unit_ship_valid?(ui)
     true if all_coords_on_board?(ui) && three_unit_no_wraps?(ui) &&
-    !diagonal_coords?(ui) && !coords_claimed?(ui)
+    !diagonal_coords?(ui) && !coords_claimed?(ui) && letters_sorted?(ui)
   end
 end

@@ -7,7 +7,7 @@ puts Responder.welcome_response
     user_input = gets.chomp.downcase.strip
     until user_input == 'q' || user_input == 'quit'
       if user_input == 'p' || user_input == "play"
-        Human.new.place_two_unit_ship
+      Human.new.request_two_unit_ship
       elsif user_input == 'i' || user_input == "instructions"
         puts Responder.instructional_response
       end

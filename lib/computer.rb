@@ -29,19 +29,19 @@ class Computer
     if human.two_unit_ship.include?(aim)
       human.two_unit_ship.delete(aim)
       if human.two_unit_ship.empty?
-        puts Responder.battleship_two_destroyed
+        puts Responder.computer_destroys_human_two
       else
-        puts Responder.hit
+        puts Responder.computer_hit
       end
     elsif human.three_unit_ship.include?(aim)
       human.three_unit_ship.delete(aim)
       if human.three_unit_ship.empty?
-        puts Responder.battleship_three_destroyed
+        puts Responder.computer_destroys_human_three
       else
-        puts Responder.hit
+        puts Responder.computer_hit
       end
     else
-      puts Responder.missed
+      puts Responder.computer_missed
     end
   end
 end

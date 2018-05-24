@@ -15,13 +15,11 @@ class HumanTest < Minitest::Test
     assert_equal [], human.three_unit_ship
     assert_equal [], human.shots_fired
     assert_instance_of Time, human.start_time
-    assert_instance_of Computer, human.opponent
   end
 
   def test_it_can_format_user_input
     human = Human.new
     assert_equal ['C2', 'C3'], human.format_coords('c2 c3')
-
   end
 
   def test_it_can_compare_user_input_to_valid_coordinates_array
@@ -83,6 +81,7 @@ class HumanTest < Minitest::Test
   end
 
   def test_coords_can_be_mapped_for_comparison
+    #helper method
     human = Human.new
       assert_equal [false, false], human.mapped_coords('a2 b3')
       assert_equal [false, false], human.mapped_coords('c3 d4')
@@ -113,5 +112,28 @@ class HumanTest < Minitest::Test
     refute human.three_unit_ship_valid?('d4 d1 d2')
     refute human.three_unit_ship_valid?('e1 e2 a1')
     refute human.three_unit_ship_valid?('b2 c3 d4')
+  end
+
+  def test_it_can_check_if_coordinate_has_been_fired
+    human = Human.new
+    computer = Computer.new
+    refute human.duplicate_shot?('B1')
+    human.status('B1', human)
+    assert human.duplicate_shot?('B1')
+  end
+
+  def test_when_it_fires_a_shot_it_is_stored_in_shots_fired
+    human = Human.new
+    computer = Computer.new
+    human.status('B1', computer)
+    assert_equal 1, human.shots_fired.length
+  end
+
+  def test_when_computer_can_sink_human_battleship
+    human = Human.new
+    computer = Computer.new
+    human.status("C1", computer)
+    human.status("D1", computer)
+    assert_equal 0, computer.two_unit_ship.length
   end
 end
